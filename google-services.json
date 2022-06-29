@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "418835395321",
+    "project_id": "thecoach-audio",
+    "storage_bucket": "thecoach-audio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418835395321:android:2b157ce4ce2e3c32916828",
+        "android_client_info": {
+          "package_name": "com.thecoach.thecoach"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418835395321-7uj4g19st2u299rbe5am8iqvmt9fmtcu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDa_QSLAOb_0LdigSck_3_KnkHhdsjPMe8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418835395321-7uj4g19st2u299rbe5am8iqvmt9fmtcu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

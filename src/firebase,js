@@ -1,0 +1,21 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore"
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBMF2BsuNX2Kpqr-HKHqqDBopP7Kmh7mOs",
+  authDomain: "thecoach-audio.firebaseapp.com",
+  projectId: "thecoach-audio",
+  storageBucket: "thecoach-audio.appspot.com",
+  messagingSenderId: "418835395321",
+  appId: "1:418835395321:web:3ffa0a27ca86e52d916828",
+  measurementId: "G-SE8237WGLM"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore();
+const analytics = getAnalytics(app);
+export {
+  db,
+  analytics
+}

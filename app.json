@@ -3,7 +3,7 @@
     "name": "thecoach",
     "slug": "thecoach",
     "owner": "ddrosatos_imode",
-    "version": "1.0.4",
+    "version": "2.1.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -20,7 +20,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.thecoach.thecoach",
-      "buildNumber": "1.0.2",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "buildNumber": "2.1.7",
       "infoPlist": {
         "UIRequiresFullScreen": true,
         "UIBackgroundModes": [
@@ -33,11 +34,28 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000"
       },
+      "permissions": [
+        "WRITE_EXTERNAL_STORAGE",
+        "MANAGE_EXTERNAL_STORAGE",
+        "READ_EXTERNAL_STORAGE"
+      ],
       "package": "com.thecoach.thecoach",
-      "versionCode": 2
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 17
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "appId": "1:418835395321:web:3ffa0a27ca86e52d916828",
+          "apiKey": "AIzaSyBMF2BsuNX2Kpqr-HKHqqDBopP7Kmh7mOs",
+          "projectId": "thecoach-audio",
+          "storageBucket": "thecoach-audio.appspot.com",
+          "messagingSenderId": "418835395321",
+          "measurementId": "G-SE8237WGLM",
+          "authDomain": "thecoach-audio.firebaseapp.com"
+        }
+      }
     },
     "description": ""
   }
