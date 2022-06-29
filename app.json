@@ -3,7 +3,7 @@
     "name": "thecoach",
     "slug": "thecoach",
     "owner": "ddrosatos_imode",
-    "version": "2.1.7",
+    "version": "2.1.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -21,7 +21,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.thecoach.thecoach",
       "googleServicesFile": "./GoogleService-Info.plist",
-      "buildNumber": "2.1.7",
+      "buildNumber": "2.1.8",
       "infoPlist": {
         "UIRequiresFullScreen": true,
         "UIBackgroundModes": [
@@ -41,7 +41,7 @@
       ],
       "package": "com.thecoach.thecoach",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 17
+      "versionCode": 18
     },
     "web": {
       "favicon": "./assets/favicon.png",

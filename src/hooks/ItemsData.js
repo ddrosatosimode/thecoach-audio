@@ -81,7 +81,8 @@ export const useApiDataList = (api_data, cat = 0, schedules = null, userlist = f
 
 export const useDataByIds = (api_data, ids, setData, setLoading) => {
   const filtered = api_data.filter(item => {
-    return ids.toString().indexOf(item.id) >= 0
+    //return ids.toString().indexOf(item.id) >= 0
+    return ids.includes(item.id)
   })
   setData(filtered);
   setLoading(false);

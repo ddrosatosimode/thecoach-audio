@@ -153,7 +153,7 @@ const AudioBottomBar = ({ onlyPlayer = false, ww, handleModalOpen, inside = fals
 
           {!inside && (aid != audio.id || (!isPlaying && aid == audio.id)) ? <SvgBack tp="curved" stl={{ position: 'absolute', bottom: -normalize(8), left: 0, width: '100%', height: 'auto' }} ww={ww}></SvgBack> : null}
           <TouchableOpacity style={styles.bottomCol} onPress={() => handleScheduleAdd()}>
-            <Icon name="calendar-add" size={normalize(19)} color={schedules.indexOf(aid) > -1 ? "#0176FF" : "#fff"} />
+            <Icon name="calendar-add" size={normalize(19)} color={schedules.includes(aid) ? "#0176FF" : "#fff"} />
             <Text style={styles.bottomText}>Πρόγραμμα</Text>
           </TouchableOpacity>
           {downloads && downloads.length > 0 && idexists() ?
@@ -172,7 +172,7 @@ const AudioBottomBar = ({ onlyPlayer = false, ww, handleModalOpen, inside = fals
             <Text style={styles.bottomText}>Μοιράσου το</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.bottomCol} onPress={() => handleFavAdd()}>
-            <Icon name="favorites-add" size={normalize(19)} color={favorites.indexOf(aid) > -1 ? "#ff3838" : "#fff"} />
+            <Icon name="favorites-add" size={normalize(19)} color={favorites.includes(aid) ? "#ff3838" : "#fff"} />
             <Text style={styles.bottomText}>Αγαπημένα</Text>
           </TouchableOpacity>
           {handleModalOpen && (aid != audio.id || (!isPlaying && aid == audio.id)) ?

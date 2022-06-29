@@ -22,7 +22,7 @@ const MyScheduleScreen = ({ navigation, route }) => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor='#000' translucent={false} style="light" animated={true} />
       <ScrollView style={{ flex: 1, width: '100%', paddingHorizontal: 30 }}>
-        <Text style={styles.defaultH1}>My Schedule</Text>
+        <Text style={styles.defaultH1}>Πρόγραμμα</Text>
         <View style={{ width: '100%', paddingTop: 16 }}>
           {isLoading ? <ActivityIndicator /> :
             !data || data.length == 0 ? <Text style={{ color: '#fff', paddingVertical: 30, fontSize: 18 }}>Η Λίστα είναι άδεια</Text> :
