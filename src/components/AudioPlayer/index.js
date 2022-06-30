@@ -20,6 +20,7 @@ const {
 const playerW = SCREEN_WIDTH - normalize(15);
 const playerT = SCREEN_HEIGHT - normalize(140);
 const vert = -(SCREEN_HEIGHT - 200);
+
 const str_pad_left = (string, pad, length) => {
   return (new Array(length + 1).join(pad) + string).slice(-length);
 }
@@ -187,7 +188,7 @@ const AudioPlayerMini = ({ activeRoute, activeRouteId }) => {
     <>
       {audio && AudioStatus.isLoaded && mini && activeRoute != 'Profile' && activeRoute != 'FTE' && !stop ?
         <TouchableOpacity activeOpacity={.7} delayLongPress={2000} onLongPress={() => removeMini()}
-          style={[styles.miniplay, { top: playerT - insets.bottom }]}>
+          style={[styles.miniplay, { top: playerT }]}>
           {activeRoute == 'Audio' && (activeRouteId != audio.id || !isPlaying) ?
             <MaskedView style={{ flex: 1, flexDirection: "row", height: normalize(48), width: "100%" }} maskElement={
               <View style={{ backgroundColor: 'transparent', flex: 1, justifyContent: 'center', alignItems: 'center', height: normalize(48) }}>
@@ -213,7 +214,9 @@ const AudioPlayerMini = ({ activeRoute, activeRouteId }) => {
                 {isPlaying ? <Icon name="pause" size={normalize(8)} color='#fff' /> : <Icon name="play" size={normalize(8)} color='#fff' />}
               </TouchableOpacity>
               <Text style={{ color: '#fff', flexGrow: 1, paddingHorizontal: 10, fontSize: normalize(14), lineHeight: normalize(14), fontFamily: 'AlegreyaSans_700Bold' }}>{audio ? audio.title : null}</Text>
-              <Text style={{ color: '#fff', fontSize: normalize(12), lineHeight: normalize(12), fontFamily: 'AlegreyaSans_400Regular' }}>{convertNumberToTime(audioProgress)}</Text>
+              <Text style={{ color: '#fff', fontSize: normalize(12), lineHeight: normalize(12), fontFamily: 'AlegreyaSans_400Regular' }}>
+                {audioProgress && audioProgress > 0 ? convertNumberToTime(audioProgress) : '00:00'}
+              </Text>
               <TouchableOpacity style={[styles.playpause, { backgroundColor: 'red', marginRight: 0, marginLeft: 10 }]} onPress={() => removeMini()}>
                 <SvgClose />
               </TouchableOpacity>
