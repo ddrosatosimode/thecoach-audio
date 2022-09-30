@@ -5,8 +5,6 @@ import { normalize } from "../../utilities/normalize";
 import Icon from '../CustomIcons';
 
 const Filter = ({ item, navigation, mode = false, useSearch = false, searchState = {} }) => {
-  //console.log(searchState);
-  //console.log(item);
   let tp = item.type;
   return (
     <LinearGradient

@@ -174,7 +174,7 @@ const AudioPlayerMini = ({ activeRoute, activeRouteId }) => {
   useEffect(() => {
     Audio.setAudioModeAsync({
       playsInSilentModeIOS: true,
-      allowsRecordingIOS: true,
+      allowsRecordingIOS: false,
       staysActiveInBackground: true,
       interruptionModeIOS: 1,
       interruptionModeAndroid: 2,

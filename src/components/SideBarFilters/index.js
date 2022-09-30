@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   inner: {
-    backgroundColor: '#f9f7e9',
+    backgroundColor: '#000',
     maxWidth: 300,
     flex: 1,
     padding: normalize(12),

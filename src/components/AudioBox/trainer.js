@@ -1,13 +1,25 @@
-import { Image, Text, View, StyleSheet } from "react-native";
-import { AlegreyaSans_800ExtraBold } from '@expo-google-fonts/alegreya-sans';
+import { Image, Text, View, StyleSheet, Linking } from "react-native";
+import { AlegreyaSans_800ExtraBold, AlegreyaSans_400Regular } from '@expo-google-fonts/alegreya-sans';
 import { normalize } from "../../utilities/normalize";
 
 const TrainerBox = ({ title, img }) => {
+  const openLink = async () => {
+    const url = 'https://www.white-space.gr/';
+    await Linking.canOpenURL(url);
+    Linking.openURL(url);
+  };
+
   return (
-    <View style={styles.trainer}>
-      <Image style={styles.avatar} source={{ uri: img }} />
-      <Text style={styles.ttl}>{title.normalize('NFD').replace(/[\u0300-\u036f]/g, '')}</Text>
-    </View>
+    <>
+      <View style={styles.trainer}>
+        <Image style={styles.avatar} source={{ uri: img }} />
+        <Text style={styles.ttl}>{title.normalize('NFD').replace(/[\u0300-\u036f]/g, '')}</Text>
+      </View>
+      <View style={{ flex: 1, width: '100%', flexDirection: 'row', flexWrap: 'nowrap', maxHeight: 30, marginBottom: 10 }}>
+        <Text style={styles.smallText}>Executive Producer: </Text>
+        <Text style={styles.smallText} onPress={openLink}>white-space.gr</Text>
+      </View>
+    </>
   )
 }
 
@@ -40,5 +52,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     textTransform: 'uppercase',
     letterSpacing: 2
-  }
+  },
+  smallText: {
+    color: '#fff',
+    fontSize: 12,
+    fontFamily: 'AlegreyaSans_400Regular',
+  },
 });

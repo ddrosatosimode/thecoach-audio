@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "thecoach",
+    "name": "TheCoach",
     "slug": "thecoach",
     "owner": "ddrosatos_imode",
-    "version": "2.1.8",
+    "version": "2.1.13",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -18,10 +18,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.thecoach.thecoach",
       "googleServicesFile": "./GoogleService-Info.plist",
-      "buildNumber": "2.1.8",
+      "buildNumber": "2.1.10",
       "infoPlist": {
         "UIRequiresFullScreen": true,
         "UIBackgroundModes": [
@@ -34,14 +34,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000"
       },
-      "permissions": [
-        "WRITE_EXTERNAL_STORAGE",
-        "MANAGE_EXTERNAL_STORAGE",
-        "READ_EXTERNAL_STORAGE"
+      "blockedPermissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
       ],
       "package": "com.thecoach.thecoach",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 18
+      "versionCode": 23
     },
     "web": {
       "favicon": "./assets/favicon.png",

@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect, useContext, useCallback, useRef } from 'react';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View, Dimensions, ScrollView, Image } from 'react-native';
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View, Dimensions, Image, Linking } from 'react-native';
 import Logo from '../components/Logo';
 import Icon from '../components/CustomIcons'
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -108,7 +108,7 @@ const PlayerScreen = ({ navigation, route }) => {
               <AudioInfo title={p.title} />
             </View>
             <View style={styles.mainPlayer}>
-              <View style={{ position: 'absolute', top: normalize(23), left: 0, width: '100%', overflow: 'hidden', maxHeight: normalize(178), height: normalize(178) }}>
+              <View style={{ position: 'absolute', top: normalize(23), left: 0, width: '100%', overflow: 'hidden', maxHeight: normalize(200), height: normalize(200) }}>
                 <Image style={{
                   resizeMode: "repeat",
                   height: normalize(200),
@@ -143,7 +143,7 @@ const PlayerScreen = ({ navigation, route }) => {
                   {isPlaying ? <Icon name="pause" size={normalize(31)} color='#fff' /> : <Icon name="play" size={normalize(31)} color='#fff' />}
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.seekbtn} onPress={() => handleSeek(+15)}><SvgPlus /></TouchableOpacity>
-                <View style={{ flexGrow: 1, flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}><TouchableOpacity style={{ marginRight: 15 }} onPress={() => handleStop()}><SvgStop /></TouchableOpacity></View>
+                <View style={{ flexGrow: 1, flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}><TouchableOpacity style={[styles.seekbtn, { marginRight: 15 }]} onPress={() => handleStop()}><SvgStop /></TouchableOpacity></View>
               </View>
             </View>
           </View>
@@ -193,6 +193,11 @@ const styles = StyleSheet.create({
   },
   playerInfo: {
     paddingHorizontal: normalize(23),
+  },
+  smallText: {
+    color: '#fff',
+    fontSize: 12,
+    fontFamily: 'AlegreyaSans_400Regular',
   },
   mainPlayer: {
     flex: 1,

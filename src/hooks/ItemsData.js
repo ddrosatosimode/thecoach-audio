@@ -40,7 +40,7 @@ export const useApiDataList = (api_data, cat = 0, schedules = null, userlist = f
   }
   if (userlist) {
     const filtered = api_data.filter(item => {
-      return schedules.toString().indexOf(item.id) >= 0
+      return schedules.includes(item.id)
     })
     if (limit > 0) {
       let limited = filtered.slice(0, 10);

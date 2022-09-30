@@ -3,7 +3,7 @@ import Svg, { Path, Rect } from 'react-native-svg';
 import { normalize } from '../../utilities/normalize';
 const SvgClose = () => {
   return (
-    <Svg width={normalize(19)} height={normalize(19)} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><Path fill='#000' d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" /></Svg>
+    <Svg width={normalize(19)} height={normalize(19)} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><Path fill='#FFF' d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z" /></Svg>
   )
 }
 

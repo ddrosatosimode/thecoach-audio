@@ -34,7 +34,6 @@ const SearchScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     if (searchState) {
-      //console.log(searchState);
       useSearch(searchState);
     }
   }, [data, searchState]);

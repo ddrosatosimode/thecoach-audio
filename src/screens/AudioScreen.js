@@ -106,7 +106,7 @@ const AudioScreen = ({ navigation, route }) => {
           }>
             <View style={{ flex: 1, height: contentStart }}></View>
             <View style={{ flex: 1, paddingHorizontal: 30 }}>
-              {/*<TrainerBox title={data.trainer.userName} img={data.trainer.img} />*/}
+              <TrainerBox title={data.trainer.userName} img={data.trainer.img} />
               <AudioInfo title={data.title} category={data.category} duration={data.duration} intensity={data.intensity} large={true} />
               <Text style={[styles.descr, { marginVertical: 32 }]}>{data.descr}</Text>
               {data.target.length ? (<Text style={styles.headerTitle}>Ιδανικό</Text>) : null}

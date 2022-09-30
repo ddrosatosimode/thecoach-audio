@@ -57,7 +57,7 @@ const MainNavigation = ({ navigation, route }) => {
       <Stack.Screen name="Home" component={HomeScreen} options={({ route }) => ({ headerStyleInterpolator: HeaderStyleInterpolators.forNoAnimation, headerTransparent: true, headerLeft: (props) => <LeftNav {...props} /> })} />
       <Stack.Screen name="FTE" component={UserPreferences} options={{ headerShown: false }} />
       <Stack.Screen name="Category" component={CategoryScreen} options={({ route }) => ({ title: route.params.title })} />
-      <Stack.Screen name="Search" component={SearchScreen} options={({ route }) => ({ title: 'Αναζήτηση', headerLeft: (props) => <LeftNav {...props} />, })} />
+      <Stack.Screen name="Search" component={SearchScreen} options={({ route }) => ({ title: 'Search' })} />
       <Stack.Screen name="Audio" component={AudioScreen} options={({ route }) => ({ headerStyleInterpolator: HeaderStyleInterpolators.forNoAnimation, headerTransparent: true, })} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
