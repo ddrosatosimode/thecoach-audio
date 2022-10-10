@@ -15,6 +15,7 @@ import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
 import MainNavigation from './MainNavigation';
 import { normalize } from '../utilities/normalize';
+import FreepassScreen from '../screens/FreepassScreen';
 const Tab = createBottomTabNavigator();
 
 const BottomTabsNav = ({ navigation, route }) => {
@@ -61,7 +62,10 @@ const BottomTabsNav = ({ navigation, route }) => {
       {isLoading ? (
         <Tab.Screen name="Splash" component={SplashScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
       ) : user == null ? (
-        <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
+        <>
+          <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
+          <Tab.Screen name="FreePass" component={FreepassScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
+        </>
       ) : (
         <>
           <Tab.Screen name="Overview" component={MainNavigation} options={{ title: 'The Coach', headerShown: false }} />

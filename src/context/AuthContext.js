@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (state?.user?.id > 0) {
+    if (state?.user?.id > 0 && state?.user?.activeSub) {
       if (!initToken) {
         setInitToken(true);
         registerForPushNotificationsAsync()
@@ -176,17 +176,35 @@ export const AuthProvider = ({ children }) => {
       const usr = await AsyncStorage.getItem('user');
       if (usr != null) {
         const authData = JSON.parse(usr);
-        const subStatus = await checkUserSubscription(authData.id);
-        if (subStatus) {
-          const UserSettings = await AsyncStorage.getItem('userSettings');
-          if (UserSettings) {
-            const UserSettingsData = JSON.parse(UserSettings);
-            authData.userSettings = UserSettingsData;
+        const TrialStatus = authData.locationSub;
+        if (TrialStatus) {
+          const now = new Date();
+          console.log(now.getTime());
+          console.log(TrialStatus);
+          if (TrialStatus <= now.getTime()) {
+            const UserSettings = await AsyncStorage.getItem('userSettings');
+            if (UserSettings) {
+              const UserSettingsData = JSON.parse(UserSettings);
+              authData.userSettings = UserSettingsData;
+            }
+            dispatch({ type: 'SIGN_IN', payload: authData });
+          } else {
+            await AsyncStorage.removeItem('user');
+            dispatch({ type: 'SIGN_OUT' });
           }
-          dispatch({ type: 'SIGN_IN', payload: authData });
         } else {
-          await AsyncStorage.removeItem('user');
-          dispatch({ type: 'SIGN_OUT' });
+          const subStatus = await checkUserSubscription(authData.id);
+          if (subStatus) {
+            const UserSettings = await AsyncStorage.getItem('userSettings');
+            if (UserSettings) {
+              const UserSettingsData = JSON.parse(UserSettings);
+              authData.userSettings = UserSettingsData;
+            }
+            dispatch({ type: 'SIGN_IN', payload: authData });
+          } else {
+            await AsyncStorage.removeItem('user');
+            dispatch({ type: 'SIGN_OUT' });
+          }
         }
       } else {
         dispatch({ type: 'LOGIN_IN' });

@@ -126,6 +126,12 @@ const LoginScreen = ({ navigation, route }) => {
           <Text style={styles.buttonTextStyle}>Σύνδεση</Text>
         </TouchableOpacity>
         <Text style={styles.resetText} onPress={() => { handlePress }}>Ξέχασες τον κωδικό;</Text>
+        <TouchableOpacity
+          style={[styles.buttonStyle, styles.freepassbtn]}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('FreePass')}>
+          <Text style={styles.buttonTextStyle}>Free Pass</Text>
+        </TouchableOpacity>
       </LinearGradient>
     </KeyboardAvoidingView>
   )
@@ -162,7 +168,7 @@ const styles = StyleSheet.create({
   resetText: {
     fontSize: 17,
     fontFamily: 'AlegreyaSans_400Regular',
-    marginTop: 44,
+    marginTop: 30,
     lineHeight: 23,
     color: '#fff'
   },
@@ -190,6 +196,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 30,
+  },
+  freepassbtn: {
+    backgroundColor: '#000',
   },
   buttonTextStyle: {
     color: '#fff',
