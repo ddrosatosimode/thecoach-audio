@@ -18,6 +18,7 @@ import LeftNav from '../components/NavigationParts/leftNav';
 import UserPreferences from '../screens/UserPreferences';
 import { normalize } from '../utilities/normalize';
 import RightNav from '../components/NavigationParts/rightNav';
+import SubscriptionsScreen from '../screens/SubscriptionsScreen';
 
 const Stack = createStackNavigator();
 
@@ -60,6 +61,7 @@ const MainNavigation = ({ navigation, route }) => {
       <Stack.Screen name="Search" component={SearchScreen} options={({ route }) => ({ title: 'Search' })} />
       <Stack.Screen name="Audio" component={AudioScreen} options={({ route }) => ({ headerStyleInterpolator: HeaderStyleInterpolators.forNoAnimation, headerTransparent: true, })} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Subscriptions" component={SubscriptionsScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
       <Stack.Screen name="Player" component={PlayerScreen} options={({ route }) => ({ headerShown: false, presentation: 'modal', gestureDirection: 'vertical', gestureEnabled: true, cardStyleInterpolator: CardStyleInterpolators.forVerticalIOS })} />
 

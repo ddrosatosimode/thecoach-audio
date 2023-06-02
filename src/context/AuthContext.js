@@ -3,6 +3,8 @@ import { AuthReducer } from './AuthReducer'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
+import * as BackgroundFetch from 'expo-background-fetch';
+import * as TaskManager from 'expo-task-manager';
 
 export const geFte = async () => {
   try {
@@ -55,6 +57,47 @@ const removeHelper = async (key, id) => {
 
 export const AuthStateContext = createContext(initialState);
 
+const BACKGROUND_FETCH_TASK = 'background-fetch';
+
+const handleBackgroundTask = async () => {
+  const now = Date.now();
+
+  console.log(`Got background fetch call at date: ${new Date(now).toISOString()}`);
+
+  // Be sure to return the successful result type!
+  return BackgroundFetch.BackgroundFetchResult.NewData;
+
+  const { id } = state.user;
+
+  try {
+    //const response = await fetch(`https://example.com/api/checkSubscription?id=${id}`);
+    //const apiResponse = await response.json();
+    const apiResponse = {
+      activeSub: true
+    }
+    // Update the activeSub value in the state based on the API response
+    dispatch({ type: 'SET_ACTIVE_SUB', payload: apiResponse.activeSub });
+    BackgroundFetch.finish(taskId);
+  } catch (error) {
+    console.error('Error checking subscription:', error);
+    BackgroundFetch.finish(taskId);
+  }
+}
+TaskManager.defineTask(BACKGROUND_FETCH_TASK, handleBackgroundTask);
+
+const registerBackgroundFetchAsync = async () => {
+  console.log('executed');
+  return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
+    minimumInterval: 1 * 60, // 1 minute
+    stopOnTerminate: false, // android only,
+    startOnBoot: true, // android only
+  });
+};
+
+async function unregisterBackgroundFetchAsync() {
+  return BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK);
+}
+
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
   const [initToken, setInitToken] = useState(false);
@@ -72,6 +115,39 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     getUser();
   }, []);
+
+
+  useEffect(() => {
+    const checkStatusAsync = async () => {
+      const status = await BackgroundFetch.getStatusAsync();
+      const isRegistered = await TaskManager.isTaskRegisteredAsync(BACKGROUND_FETCH_TASK);
+      console.log('Background fetch status:', BackgroundFetch.BackgroundFetchStatus[status]);
+      console.log('Background fetch registered:', isRegistered);
+      if (!isRegistered) {
+        await registerBackgroundFetchAsync();
+        console.log('here 1');
+      } else {
+        console.log('here 2');
+        //await unregisterBackgroundFetchAsync();
+      }
+
+
+      return status;
+    };
+
+    if (state.user) {
+      checkStatusAsync()
+        .then((status) => {
+          console.log(status);
+          if (status !== 3) {
+            //registerBackgroundFetchIfNeeded();
+          }
+        })
+        .catch((error) => {
+          console.error('Error checking background fetch status:', error);
+        });
+    }
+  }, [state.user]);
 
   useEffect(() => {
     if (state?.user?.id > 0 && state?.user?.activeSub) {
@@ -123,7 +199,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkUserSubscription = async (uid) => {
     try {
-      const response = await fetch('https://thecoach.gr/index.php?option=com_imodeuserplans&task=app.checkUserSub&id=' + uid + '&format=json', {
+      const response = await fetch('https://thecoach.gr/index.php?option=com_imodeuserplans&task=app.checkUserSub&version=2&id=' + uid + '&format=json', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -179,8 +255,8 @@ export const AuthProvider = ({ children }) => {
         const TrialStatus = authData.locationSub;
         if (TrialStatus) {
           const now = new Date();
-          console.log(now.getTime());
-          console.log(TrialStatus);
+          //console.log(now.getTime());
+          // console.log(TrialStatus);
           if (TrialStatus <= now.getTime()) {
             const UserSettings = await AsyncStorage.getItem('userSettings');
             if (UserSettings) {

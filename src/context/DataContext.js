@@ -98,6 +98,7 @@ export const DataProvider = ({ children }) => {
       useFullData();
       useFiltersMixes();
       useGoals();
+
     }
   }, [user]);
 

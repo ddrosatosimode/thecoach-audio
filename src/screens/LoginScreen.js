@@ -42,7 +42,7 @@ const LoginScreen = ({ navigation, route }) => {
       return;
     }
 
-    let dataToSend = { email: userEmail, password: userPassword };
+    let dataToSend = { email: userEmail, password: userPassword, version: 2 };
     let formBody = [];
     for (let key in dataToSend) {
       let encodedKey = encodeURIComponent(key);
@@ -126,11 +126,17 @@ const LoginScreen = ({ navigation, route }) => {
           <Text style={styles.buttonTextStyle}>Σύνδεση</Text>
         </TouchableOpacity>
         <Text style={styles.resetText} onPress={() => { handlePress }}>Ξέχασες τον κωδικό;</Text>
-        <TouchableOpacity
+        {/*<TouchableOpacity
           style={[styles.buttonStyle, styles.freepassbtn]}
           activeOpacity={0.5}
           onPress={() => navigation.navigate('FreePass')}>
           <Text style={styles.buttonTextStyle}>Free Pass</Text>
+        </TouchableOpacity>*/}
+        <TouchableOpacity
+          style={[styles.buttonStyle, styles.registerbtn]}
+          activeOpacity={0.5}
+          onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.buttonTextStyle}>Εγγραφή</Text>
         </TouchableOpacity>
       </LinearGradient>
     </KeyboardAvoidingView>
@@ -199,6 +205,9 @@ const styles = StyleSheet.create({
   },
   freepassbtn: {
     backgroundColor: '#000',
+  },
+  registerbtn: {
+    backgroundColor: '#d8534f',
   },
   buttonTextStyle: {
     color: '#fff',

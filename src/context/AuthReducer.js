@@ -64,5 +64,15 @@ export const AuthReducer = (state, action) => {
         ...state,
         user: { ...state.user, userFteShown: true }
       }
+    case 'SET_ACTIVE_SUB':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          activeSub: action.payload
+        }
+      }
+    default:
+      return state;
   }
 }

@@ -16,7 +16,7 @@ const AudioSwiper = ({ tmpl = "normal", headerNav, title, subtitle, path, cat, u
   const { user } = useContext(AuthStateContext);
 
   useEffect(() => {
-    if (api_data) {
+    if (api_data && user) {
       useApiDataList(api_data, cat, schedules, userlist, path, user, setData, setLoading, 10)
     }
   }, [api_data, cat, schedules, userlist, path, user]);
@@ -44,7 +44,7 @@ const AudioSwiper = ({ tmpl = "normal", headerNav, title, subtitle, path, cat, u
             data={data}
             renderItem={({ item, index }) => {
               return (
-                <AudioBox key={index} item={item} index={index} tmpl={tmpl} navigation={navigation} />
+                <AudioBox key={index} item={item} index={index} tmpl={tmpl} navigation={navigation} activeSub={user.activeSub} />
               )
             }}
             keyExtractor={item => item.id}

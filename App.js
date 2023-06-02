@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, { useCallback, useState, useEffect, createContext, useContext, createRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "react-native-gesture-handler";
 import { NavigationContainer, useNavigationContainerRef, DefaultTheme } from "@react-navigation/native";
 import * as Font from 'expo-font';
@@ -8,7 +8,7 @@ import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-c
 import { AlegreyaSans_400Regular, AlegreyaSans_700Bold, AlegreyaSans_800ExtraBold } from '@expo-google-fonts/alegreya-sans';
 import { PlayerProvider, TimerProvider } from './src/context/PlayerContext';
 import AudioPlayerMini from './src/components/AudioPlayer';
-import { AuthProvider } from './src/context/AuthContext.js';
+import { AuthProvider, AuthStateContext } from './src/context/AuthContext.js';
 import BottomTabsNav from './src/navigation/BottomTabsNav';
 import { DataProvider } from './src/context/DataContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,6 +44,7 @@ function App() {
     }
     loadResourcesAndDataAsync();
   }, []);
+
   if (!appIsReady) {
     return <></>
   }
