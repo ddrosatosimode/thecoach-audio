@@ -13,6 +13,18 @@ const SearchScreen = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const { api_data } = useContext(DataStateContext);
   const [temp, setTemp] = useState([]);
+  const freeSort = (items) => {
+    items.sort((a, b) => {
+      if (a.availability === "free" && b.availability !== "free") {
+        return -1; // a comes before b
+      } else if (a.availability !== "free" && b.availability === "free") {
+        return 1; // a comes after b
+      } else {
+        return 0; // the order remains the same
+      }
+    });
+    return items;
+  }
   const useSearch = (filters) => {
     let result = data.filter((item) => {
       for (let key in filters) {
@@ -22,7 +34,8 @@ const SearchScreen = ({ navigation, route }) => {
       }
       return true;
     });
-    setTemp(result);
+
+    setTemp(freeSort(result));
   }
   useEffect(() => {
     if (api_data) {

@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SideBarFilters from './src/components/SideBarFilters';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import Purchases from 'react-native-purchases';
 const navTheme = {
   ...DefaultTheme,
   colors: {

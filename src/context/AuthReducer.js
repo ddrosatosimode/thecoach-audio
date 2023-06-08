@@ -29,6 +29,11 @@ export const AuthReducer = (state, action) => {
         ...state,
         schedules: action.payload,
       }
+    case 'UPDATE_USERSUBSCRIPTION':
+      return {
+        ...state,
+        user: { ...state.user, activeSub: action.payload }
+      }
     case 'UPDATE_USERSETTINGS':
       return {
         ...state,

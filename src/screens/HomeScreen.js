@@ -72,15 +72,15 @@ const HomeScreen = ({ navigation, route }) => {
         </View>
         <AudioSwiper tmpl="featured" headerNav="Category" title="Προτάσεις για σένα" subtitle="Με βάση τα θέλω σου" path="featured" cat="" api_data={api_data} />
         <AudioFilters navigation={navigation} />
-        <AudioSwiper tmpl="normal" headerNav="Category" title="Ξεκινάς τώρα" subtitle="Κορυφαία προγράμματα για αρχάριους" path="level" cat="1" api_data={api_data} />
-        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση με περπάτημα" subtitle="Τώρα το περπάτημα γίνεται αποδοτική προπόνηση" path="category" cat="2" api_data={api_data} />
-        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση με Jogging" subtitle="Ανέβασε ρυθμό, δες το σώμα σου να αλλάζει" path="category" cat="5" api_data={api_data} />
-        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση Running" subtitle="Απογείωσε την απόδοση σου με τον Running Coach σου" path="category" cat="1" api_data={api_data} />
-        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση για φυσική κατάσταση" subtitle="Συνάντησε την καλύτερη εκδοχή του εαυτού σου" path="target" cat="1" api_data={api_data} />
-        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση για αντοχή" subtitle="Προετοιμάσου για περισσότερα χιλιόμετρα. Αντέχεις;" path="target" cat="3" api_data={api_data} />
-        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση για κάψιμο θερμίδων" subtitle="Προπονήσεις που θα μεταμορφώσουν το σώμα σου" path="target" cat="2" api_data={api_data} />
+        <AudioSwiper tmpl="normal" headerNav="Category" title="Ξεκινάς τώρα" subtitle="Κορυφαία προγράμματα για αρχάριους" path="level" cat={1} api_data={api_data} />
+        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση με περπάτημα" subtitle="Τώρα το περπάτημα γίνεται αποδοτική προπόνηση" path="category" cat={2} api_data={api_data} />
+        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση με Jogging" subtitle="Ανέβασε ρυθμό, δες το σώμα σου να αλλάζει" path="category" cat={5} api_data={api_data} />
+        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση Running" subtitle="Απογείωσε την απόδοση σου με τον Running Coach σου" path="category" cat={1} api_data={api_data} />
+        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση για φυσική κατάσταση" subtitle="Συνάντησε την καλύτερη εκδοχή του εαυτού σου" path="target" cat={1} api_data={api_data} />
+        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση για αντοχή" subtitle="Προετοιμάσου για περισσότερα χιλιόμετρα. Αντέχεις;" path="target" cat={3} api_data={api_data} />
+        <AudioSwiper tmpl="normal" headerNav="Category" title="Προπόνηση για κάψιμο θερμίδων" subtitle="Προπονήσεις που θα μεταμορφώσουν το σώμα σου" path="target" cat={2} api_data={api_data} />
         <AudioSwiper tmpl="normal" headerNav="MySchedule" title="Το πρόγραμμά σου" subtitle="Φτιάξε το ιδανικό πρόγραμμα προπόνησης!" userlist={true} api_data={api_data} />
-        <AudioSwiper tmpl="normal" headerNav="Category" title="Εναλλακτικές προτάσεις" subtitle="Για εσένα που θές περισσότερα" path="random" cat="" api_data={api_data} />
+        <AudioSwiper tmpl="normal" headerNav="Category" title="Εναλλακτικές προτάσεις" subtitle="Για εσένα που θές περισσότερα" path="random" cat={null} api_data={api_data} />
       </Animated.ScrollView >
     </View >
   )

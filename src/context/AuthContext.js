@@ -5,6 +5,8 @@ import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import * as BackgroundFetch from 'expo-background-fetch';
 import * as TaskManager from 'expo-task-manager';
+import Purchases from "react-native-purchases";
+import { Platform } from "react-native";
 
 export const geFte = async () => {
   try {
@@ -57,47 +59,6 @@ const removeHelper = async (key, id) => {
 
 export const AuthStateContext = createContext(initialState);
 
-const BACKGROUND_FETCH_TASK = 'background-fetch';
-
-const handleBackgroundTask = async () => {
-  const now = Date.now();
-
-  console.log(`Got background fetch call at date: ${new Date(now).toISOString()}`);
-
-  // Be sure to return the successful result type!
-  return BackgroundFetch.BackgroundFetchResult.NewData;
-
-  const { id } = state.user;
-
-  try {
-    //const response = await fetch(`https://example.com/api/checkSubscription?id=${id}`);
-    //const apiResponse = await response.json();
-    const apiResponse = {
-      activeSub: true
-    }
-    // Update the activeSub value in the state based on the API response
-    dispatch({ type: 'SET_ACTIVE_SUB', payload: apiResponse.activeSub });
-    BackgroundFetch.finish(taskId);
-  } catch (error) {
-    console.error('Error checking subscription:', error);
-    BackgroundFetch.finish(taskId);
-  }
-}
-TaskManager.defineTask(BACKGROUND_FETCH_TASK, handleBackgroundTask);
-
-const registerBackgroundFetchAsync = async () => {
-  console.log('executed');
-  return BackgroundFetch.registerTaskAsync(BACKGROUND_FETCH_TASK, {
-    minimumInterval: 1 * 60, // 1 minute
-    stopOnTerminate: false, // android only,
-    startOnBoot: true, // android only
-  });
-};
-
-async function unregisterBackgroundFetchAsync() {
-  return BackgroundFetch.unregisterTaskAsync(BACKGROUND_FETCH_TASK);
-}
-
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, initialState);
   const [initToken, setInitToken] = useState(false);
@@ -117,7 +78,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
 
-  useEffect(() => {
+  /*useEffect(() => {
     const checkStatusAsync = async () => {
       const status = await BackgroundFetch.getStatusAsync();
       const isRegistered = await TaskManager.isTaskRegisteredAsync(BACKGROUND_FETCH_TASK);
@@ -128,7 +89,7 @@ export const AuthProvider = ({ children }) => {
         console.log('here 1');
       } else {
         console.log('here 2');
-        //await unregisterBackgroundFetchAsync();
+        await unregisterBackgroundFetchAsync();
       }
 
 
@@ -147,10 +108,10 @@ export const AuthProvider = ({ children }) => {
           console.error('Error checking background fetch status:', error);
         });
     }
-  }, [state.user]);
+  }, [state.user]);*/
 
   useEffect(() => {
-    if (state?.user?.id > 0 && state?.user?.activeSub) {
+    if (state?.user?.id > 0) {
       if (!initToken) {
         setInitToken(true);
         registerForPushNotificationsAsync()
@@ -187,7 +148,7 @@ export const AuthProvider = ({ children }) => {
 
       // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
       responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-        //console.log(response);
+
       });
 
       return () => {
@@ -246,6 +207,19 @@ export const AuthProvider = ({ children }) => {
     return token;
   }
 
+  const updateUser = async (sub) => {
+    try {
+      const usr = await AsyncStorage.getItem('user');
+      if (usr != null) {
+        const authData = JSON.parse(usr);
+        authData.activeSub = sub;
+        await AsyncStorage.setItem('user', JSON.stringify(authData));
+        dispatch({ type: 'UPDATE_USERSUBSCRIPTION', payload: authData.activeSub });
+      }
+    } catch (error) {
+      console.log('error', error);
+    }
+  }
 
   const getUser = async () => {
     try {
@@ -255,8 +229,6 @@ export const AuthProvider = ({ children }) => {
         const TrialStatus = authData.locationSub;
         if (TrialStatus) {
           const now = new Date();
-          //console.log(now.getTime());
-          // console.log(TrialStatus);
           if (TrialStatus <= now.getTime()) {
             const UserSettings = await AsyncStorage.getItem('userSettings');
             if (UserSettings) {
@@ -269,18 +241,31 @@ export const AuthProvider = ({ children }) => {
             dispatch({ type: 'SIGN_OUT' });
           }
         } else {
-          const subStatus = await checkUserSubscription(authData.id);
-          if (subStatus) {
-            const UserSettings = await AsyncStorage.getItem('userSettings');
-            if (UserSettings) {
-              const UserSettingsData = JSON.parse(UserSettings);
-              authData.userSettings = UserSettingsData;
-            }
-            dispatch({ type: 'SIGN_IN', payload: authData });
-          } else {
-            await AsyncStorage.removeItem('user');
-            dispatch({ type: 'SIGN_OUT' });
+          const apiKeys = {
+            google: 'goog_PAjHnbgAGikwbuZnTxIQbCwaPQr',
+            apple: 'appl_lIQrmqWOcOMrpvtdDZyuQAqompu'
           }
+          Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
+          if (Platform.OS == "android") {
+            Purchases.configure({ apiKey: apiKeys.google, appUserID: `app_${authData.id}` });
+          }
+          if (Platform.OS === 'ios') {
+            Purchases.configure({ apiKey: apiKeys.apple, appUserID: `app_${authData.id}` });
+          }
+
+          let subStatus = await checkUserSubscription(authData.id);
+          authData.activeSub = subStatus;
+          const customerInfo = await Purchases.getCustomerInfo();
+          if (customerInfo.activeSubscriptions.length > 0) {
+            authData.activeSub = true;
+            subStatus = true;
+          }
+          const UserSettings = await AsyncStorage.getItem('userSettings');
+          if (UserSettings) {
+            const UserSettingsData = JSON.parse(UserSettings);
+            authData.userSettings = UserSettingsData;
+          }
+          dispatch({ type: 'SIGN_IN', payload: authData });
         }
       } else {
         dispatch({ type: 'LOGIN_IN' });
@@ -302,7 +287,6 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    //AsyncStorage.removeItem('AUDIO@thecoach').then(() => { console.log('clear') });
     AsyncStorage.getItem('AUDIO@thecoach').then((result) => {
       if (result != null) {
         const data = JSON.parse(result);
@@ -339,12 +323,24 @@ export const AuthProvider = ({ children }) => {
   }
 
   function signIn(user) {
+    const apiKeys = {
+      google: 'goog_PAjHnbgAGikwbuZnTxIQbCwaPQr',
+      apple: 'appl_lIQrmqWOcOMrpvtdDZyuQAqompu'
+    }
+    Purchases.setLogLevel(Purchases.LOG_LEVEL.DEBUG);
+    if (Platform.OS === "android") {
+      Purchases.configure({ apiKey: apiKeys.google, appUserID: `app_${user.id}` });
+    }
+    if (Platform.OS === 'ios') {
+      Purchases.configure({ apiKey: apiKeys.apple, appUserID: `app_${user.id}` });
+    }
 
     dispatch({
       type: 'SIGN_IN',
       payload: user
     })
   }
+
   const signOut = async () => {
     await AsyncStorage.removeItem('user');
     dispatch({
@@ -406,6 +402,7 @@ export const AuthProvider = ({ children }) => {
       openLogin,
       signIn,
       signOut,
+      updateUser,
       updateAsync,
       updateUserSettings,
       updateNotifications,

@@ -1,18 +1,21 @@
 import { AlegreyaSans_400Regular, AlegreyaSans_700Bold } from "@expo-google-fonts/alegreya-sans";
-import React, { useContext, useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TouchableHighlight, ActivityIndicator } from "react-native";
+import React, { useContext, useState, useEffect, useLayoutEffect, useRef } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, TouchableHighlight, ActivityIndicator, Alert, AppState } from "react-native";
 import { AuthStateContext } from "../context/AuthContext";
 import { PlayerStateContext } from "../context/PlayerContext";
 import { normalize } from "../utilities/normalize";
 import { StatusBar } from "expo-status-bar";
 import RadioList from "../components/RadioList";
 import { DataStateContext } from "../context/DataContext";
+import Purchases from "react-native-purchases";
+import * as Linking from 'expo-linking';
+import SubscriptionItem from "../components/Subscription/line";
 
 const ProfileScreen = ({ navigation, route }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { openMini } = useContext(PlayerStateContext)
-  const { user, signOut, updateUserSettings } = useContext(AuthStateContext);
+  const { user, signOut, updateUserSettings, updateUser } = useContext(AuthStateContext);
   const { api_goals } = useContext(DataStateContext);
   const [selectedGoal, setSelectedGoal] = useState(user?.userSettings?.goal ? user.userSettings.goal : 0);
   const [selectedLevel, setSelectedLevel] = useState(user?.userSettings?.level ? user.userSettings.level : 0);
@@ -20,6 +23,54 @@ const ProfileScreen = ({ navigation, route }) => {
   const [selectedGender, setSelectedGender] = useState(user?.userSettings?.gender ? user.userSettings.gender : 0);
   const [tab, setTab] = useState(0);
   const [updating, setUpdating] = useState(false);
+  const [subscriptions, setSubscriptions] = useState(null);
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current ? appState.current : null);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        const checkSubscription = async () => {
+          try {
+            const customerInfo = await Purchases.getCustomerInfo();
+            if (customerInfo.activeSubscriptions.length > 0) {
+              setSubscriptions(customerInfo)
+            } else {
+              await updateUser(false);
+            }
+          } catch (e) {
+            Alert.alert('Error getting user data', e.message);
+          }
+        }
+        checkSubscription();
+      }
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      const checkSubscription = async () => {
+        try {
+          const customerInfo = await Purchases.getCustomerInfo();
+          if (customerInfo.activeSubscriptions.length > 0) {
+            setSubscriptions(customerInfo)
+          }
+        } catch (e) {
+          Alert.alert('Error getting user data', e.message);
+        }
+      }
+      checkSubscription();
+    }
+  }, [user])
 
   useEffect(() => {
     if (api_goals) {
@@ -33,6 +84,7 @@ const ProfileScreen = ({ navigation, route }) => {
       handleChange();
     }
   }, [updating])
+
   const handleLogout = () => {
     openMini(false);
     signOut();
@@ -114,6 +166,15 @@ const ProfileScreen = ({ navigation, route }) => {
         <Text style={styles.text}>Όνομα: {user.name}</Text>
         <Text style={styles.text}>Email: {user.email}</Text>
         <TouchableOpacity onPress={() => handleLogout()} style={styles.button}><Text style={styles.buttonText}>Αποσύνδεση</Text></TouchableOpacity>
+        {subscriptions ?
+          <View style={{ flex: 1, marginTop: 30 }}>
+            <Text style={[styles.text, { fontSize: 24 }]}>Συνδρομες</Text>
+            {subscriptions.activeSubscriptions.map((sub, index) => {
+              return (<SubscriptionItem name={sub} item={subscriptions.allExpirationDates} key={index} />)
+            })}
+            <TouchableOpacity onPress={() => { Linking.openURL(subscriptions.managementURL) }} style={styles.button}><Text style={styles.buttonText}>Ακύρωση Συνδρομής</Text></TouchableOpacity>
+          </View>
+          : null}
         <View style={styles.ctabs}>
           <TouchableHighlight style={styles.hl} onPress={() => handleTab(0)}><View style={[styles.tabPill, tab == 0 ? { backgroundColor: '#0176FF', borderRadius: normalize(10) } : null]}><Text style={styles.pillText}>Επίπεδο</Text></View></TouchableHighlight>
           <TouchableHighlight style={styles.hl} onPress={() => handleTab(1)}><View style={[styles.tabPill, tab == 1 ? { backgroundColor: '#0176FF', borderRadius: normalize(10) } : null]}><Text style={styles.pillText}>Στόχος</Text></View></TouchableHighlight>

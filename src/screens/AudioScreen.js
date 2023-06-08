@@ -13,7 +13,7 @@ import { PlayerStateContext } from '../context/PlayerContext';
 import { normalize } from '../utilities/normalize';
 import { DataStateContext } from '../context/DataContext';
 import { useSingleAudio } from '../hooks/ItemsData';
-import * as Analytics from 'expo-firebase-analytics';
+//import * as Analytics from 'expo-firebase-analytics';
 import AudioSections from '../components/AudioBox/sections';
 import { AuthStateContext } from '../context/AuthContext';
 
@@ -49,11 +49,11 @@ const AudioScreen = ({ navigation, route }) => {
     }
     try {
       if (data) {
-        Analytics.logEvent('audio_start', {
+        /*Analytics.logEvent('audio_start', {
           screen: 'AudioScreen',
-          audio_id: data.id,
+          //audio_id: data.id,
           audio_title: data.title
-        });
+        });*/
         if (sick > 0) {
           data.start = sick;
         }

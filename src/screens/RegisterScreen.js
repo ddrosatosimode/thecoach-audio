@@ -91,7 +91,7 @@ const RegisterScreen = ({ navigation, route }) => {
           placeholder="ΟΝΟΜΑ"
           placeholderTextColor="#FFF"
           autoCapitalize="none"
-          keyboardType="text"
+          keyboardType="default"
           returnKeyType="next"
           onSubmitEditing={() =>
             emailInputRef.current.focus()

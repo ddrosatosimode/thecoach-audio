@@ -26,7 +26,6 @@ const LoginScreen = ({ navigation, route }) => {
     if (email && password) {
       setUserEmail(email);
       setUserPassword(password);
-      //handleSubmit();
     }
   }
 
@@ -132,12 +131,6 @@ const LoginScreen = ({ navigation, route }) => {
           onPress={() => navigation.navigate('FreePass')}>
           <Text style={styles.buttonTextStyle}>Free Pass</Text>
         </TouchableOpacity>*/}
-        <TouchableOpacity
-          style={[styles.buttonStyle, styles.registerbtn]}
-          activeOpacity={0.5}
-          onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.buttonTextStyle}>Εγγραφή</Text>
-        </TouchableOpacity>
       </LinearGradient>
     </KeyboardAvoidingView>
   )
@@ -205,9 +198,6 @@ const styles = StyleSheet.create({
   },
   freepassbtn: {
     backgroundColor: '#000',
-  },
-  registerbtn: {
-    backgroundColor: '#d8534f',
   },
   buttonTextStyle: {
     color: '#fff',

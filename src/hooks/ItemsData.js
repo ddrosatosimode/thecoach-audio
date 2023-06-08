@@ -1,40 +1,49 @@
+const freeSort = (items) => {
+  items.sort((a, b) => {
+    if (a.availability === "free" && b.availability !== "free") {
+      return -1; // a comes before b
+    } else if (a.availability !== "free" && b.availability === "free") {
+      return 1; // a comes after b
+    } else {
+      return 0; // the order remains the same
+    }
+  });
+  return items;
+}
 export const useApiDataList = (api_data, cat = 0, schedules = null, userlist = false, path = null, user = null, setData, setLoading, limit = 0) => {
   if (cat > 0 && path == 'target') {
-    const filtered = api_data.sort(() => 0.5 - Math.random()).filter(item => {
-      return item.target_ids.toString().indexOf(cat) >= 0
-    })
+    const filtered = api_data.filter(item => item.target_ids.includes(cat.toString()))
+    let sorted = freeSort(filtered);
     if (limit > 0) {
-      let limited = filtered.slice(0, 10);
+      let limited = sorted.slice(0, 10);
       setData(limited);
     }
     else {
-      setData(filtered);
+      setData(sorted);
     }
     setLoading(false);
   }
   if (cat > 0 && path == 'level') {
-    const filtered = api_data.filter(item => {
-      return item.level_ids.toString().indexOf(cat) >= 0
-    })
+    let filtered = api_data.filter(item => item.level_ids.includes(cat.toString()))
+    let sorted = freeSort(filtered);
     if (limit > 0) {
-      let limited = filtered.slice(0, 10);
+      let limited = sorted.slice(0, 10);
       setData(limited);
     }
     else {
-      setData(filtered);
+      setData(sorted);
     }
     setLoading(false);
   }
   if (cat > 0 && path == 'category') {
-    const filtered = api_data.sort(() => 0.5 - Math.random()).filter(item => {
-      return item.category_ids.toString().indexOf(cat) >= 0
-    })
+    const filtered = api_data.filter(item => item.category_ids.includes(cat.toString()));
+    let sorted = freeSort(filtered);
     if (limit > 0) {
-      let limited = filtered.slice(0, 10);
+      let limited = sorted.slice(0, 10);
       setData(limited);
     }
     else {
-      setData(filtered);
+      setData(sorted);
     }
     setLoading(false);
   }
@@ -42,12 +51,13 @@ export const useApiDataList = (api_data, cat = 0, schedules = null, userlist = f
     const filtered = api_data.filter(item => {
       return schedules.includes(item.id)
     })
+    let sorted = freeSort(filtered);
     if (limit > 0) {
-      let limited = filtered.slice(0, 10);
+      let limited = sorted.slice(0, 10);
       setData(limited);
     }
     else {
-      setData(filtered);
+      setData(sorted);
     }
     setLoading(false);
   }
@@ -56,25 +66,29 @@ export const useApiDataList = (api_data, cat = 0, schedules = null, userlist = f
       const filtered = api_data.filter(item => {
         return item.target_ids.toString().indexOf(user.userSettings.goal) >= 0 && item.level_ids.toString().indexOf(user.userSettings.level) >= 0
       })
+      let sorted = freeSort(filtered);
       if (limit > 0) {
-        let limited = filtered.slice(0, 10);
+        let limited = sorted.slice(0, 10);
         setData(limited);
       }
       else {
-        setData(filtered);
+        setData(sorted);
       }
       setLoading(false);
     } else {
       const shuffled = api_data.sort(() => 0.5 - Math.random());
       let filtered = shuffled.slice(0, 10);
-      setData(filtered);
+      let sorted = freeSort(filtered);
+      // Sort the filtered array with "free" availability items first
+      setData(sorted);
       setLoading(false);
     }
   }
   if (path == 'random') {
     const shuffled = api_data.sort(() => 0.5 - Math.random());
     let selected = shuffled.slice(0, 10);
-    setData(selected);
+    let sorted = freeSort(selected);
+    setData(sorted);
     setLoading(false);
   }
 }

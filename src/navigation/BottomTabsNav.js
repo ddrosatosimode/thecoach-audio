@@ -17,6 +17,7 @@ import MainNavigation from './MainNavigation';
 import { normalize } from '../utilities/normalize';
 import FreepassScreen from '../screens/FreepassScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+import InitialScreen from '../screens/InitialScreen';
 const Tab = createBottomTabNavigator();
 
 const BottomTabsNav = ({ navigation, route }) => {
@@ -64,6 +65,7 @@ const BottomTabsNav = ({ navigation, route }) => {
         <Tab.Screen name="Splash" component={SplashScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
       ) : user == null ? (
         <>
+          <Tab.Screen name="Initial" component={InitialScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
           <Tab.Screen name="Login" component={LoginScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
           <Tab.Screen name="FreePass" component={FreepassScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
           <Tab.Screen name="Register" component={RegisterScreen} options={{ headerShown: false, tabBarStyle: { height: 0, borderTopWidth: 0, } }} />
